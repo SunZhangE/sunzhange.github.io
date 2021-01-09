@@ -1,6 +1,6 @@
 # Site settings
 title: Zhy Blog
-SEOTitle:  张阳的博客 | Zhy Blog
+SEOTitle:  Zhy的博客 | Zhy Blog
 header-img: img/post-bg-bizhi.jpg
 email: Sun2000E@163.com
 description: ""
@@ -11,15 +11,15 @@ github_repo: "https://github.com/SunZhangE/SunZhangE.github.io" # you code repos
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "唯有美食与爱，不可辜负。"
-sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "努力，努力，加油！"
+sidebar-avatar: /img/about-me.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
 # SNS settings
 RSS: false
 # weibo_username:     待填写
-zhihu_username:     tong-le-66-17
+# zhihu_username:     tong-le-66-17
 github_username:    SunZhangE
 #facebook_username:  待填写
 jianshu_username:   88faccdd5bf6
@@ -31,7 +31,7 @@ jianshu_username:   88faccdd5bf6
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
 permalink: pretty
-paginate: 5
+paginate: 9
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
@@ -56,18 +56,18 @@ kramdown:
 
 
 # 评论系统
-# Disqus（https://disqus.com/）
-# disqus_username: SunZhangE
+ Disqus（https://disqus.com/）
+ disqus_username: SunZhangE
 
-# Gitalk
+ Gitalk
 gitalk:
-  enable: flase    #是否开启Gitalk评论
-#  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-#  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
-#  repo: SunZhangE.github.io    #仓库名称
-#  owner: SunZhangE    #github用户名
-#  admin: SunZhangE
-#  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+  enable: true    #是否开启Gitalk评论
+  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
+  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
+  repo: SunZhangE.github.io    #仓库名称
+  owner: SunZhangE    #github用户名
+  admin: SunZhangE
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
 
 
 # 统计
@@ -101,12 +101,12 @@ friends: [
     {
         title: "CSDN",
         href: "https://blog.csdn.net/Junior_engineer/"
-    },{
-        title: "简书",
-        href: "https://www.jianshu.com/u/88faccdd5bf6/"
-    },{
-        title: "YJ的博客",
-        href: "https://125yingjiang.xyz/"
+#    },{
+#        title: "简书",
+#        href: "https://www.jianshu.com/u/88faccdd5bf6/"
+#    },{
+#        title: "YJ的博客",
+#        href: "https://125yingjiang.xyz/"
 #    },{
 #        title: "",
 #        href: ""
