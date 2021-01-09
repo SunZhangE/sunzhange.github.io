@@ -1,0 +1,55 @@
+---
+layout: post
+title: [DCN]SAVI在IPV6环境下的应用
+date:  2019-05-25
+author: Zhy
+header-img: img/post-post-2019_05_25.png
+tags:
+    - 网络
+---
+
+> 由RFC 7039定义，详情请看RFC [7039](<https://tools.ietf.org/html/rfc7039>)
+
+本文主要介绍了SAVI技术背景、原理以及两个关键功能分析，即DHCPv6 Snooping和ND Snooping。接入设备通过监听终端获取IPv6地址的过程并生成安全绑定表项,从而在接入设备上过滤非法终端的IPv6报文，有效地解决了非法IPv6用户接入的问题。
+
+## 简介
+
+​		SAVI（Source Address Validation Improvement）功能是一种提供节点源地址粒度级的安全验证方式，它通过监听相关协议报文（如ND协议，DHCPv6协议）的交互过程，利用CPS （Control Packet Snooping）机制，提取节点可信任的信息（如端口，MAC地址等信息）即锚信息，然后将节点源地址与锚信息进行绑定，并下发绑定信息对应的过滤规则，放行匹配过滤规则的报文，丢弃不匹配过滤规则的报文，从而达到对节点源地址合法性检测的目的。
+
+​		在SAVI RFC标准中，关于IPV6的合法介入主要包括了ND Snooping与DHCPv6 snooping两部分内容。按照协议报文类型，SAVI功能主要包括：ND Snooping功能，DHCPv6 Snooping功能和RA Snooping功能；ND Snooping功能主要探测ND协议报文，主要建立节点以无状态地址配置获取的IPv6地址的绑定；DHCPv6 Snooping功能主要探测DHCPv6协议报文，主要建立节点以有状态地址自动配置过程获取的IPv6地址的绑定；RA Snooping功能主要用于防止非法节点冒充路由器发送伪造RA报文，以欺骗链路合法性节点的目的。
+
+​		DHCPv6 snooping和ND snooping作为组件整合到了SAVI中，通过SAVI-MIX整合，从何同时具备这两种功能，按照FCFS原则，实现其中任意一个功能，都能够保证IPV6主机的合法接入。
+
+
+
+---
+
+
+
+SAVI DHCP-SLAAC组合场景配置步骤：
+
+```
+Switch1(config)#savi enable //全局开启SAVI功能
+Switch1(config)#savi ipv6 dhcp-slaac enable  //开启DHCP-slaac 功能
+Switch1(config)#savi check binding probe mode //设置绑定为probe模式
+Switch1(config)#inter e1/1
+Switch1(config-if-ethernet1/1)#ipv6 dhcp snooping trust//配置为DHCP 监听信任端口
+Switch1(config-if-ethernet1/1)#ipv6 nd snooping trust //配置为ND 监听信任端口
+Switch1(config)#inter e1/2-20
+Switch1(config-if-ethernet1/1)#savi ipv6 check source ip-address mac-address
+Switch1(config-if-ethernet1/1)#savi ipv6 binding num 4 //配置最大绑定条目为4条
+Switch1(config)#
+Switch1(config)#
+
+```
+
+
+
+ 
+
+
+
+> 如果你希望得到更将详细的SAVI介绍，可以查看
+> -  [RFC 7039](<https://tools.ietf.org/html/rfc7039>)
+> - [很棒的技术分析](<https://enterprise.pconline.com.cn/1235/12351596.html>)
+> - [很棒的学术文章](<http://www.cnki.com.cn/Article/CJFDTotal-JISJ201110011.htm>)

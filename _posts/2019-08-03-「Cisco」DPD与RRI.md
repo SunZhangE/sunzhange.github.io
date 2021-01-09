@@ -1,0 +1,275 @@
+---
+layout:      post
+title:       「IPSec」DPD与RRI技术应用
+subtitle:   
+date:        2019-08-03
+author:      Zhy
+header-img: img/post-post-2019_08_03.jpg
+catalog: true 
+tags:
+    - IPSEC
+	- CISCO
+---
+
+>  BGP、OPSF，等协议都有一个周期性发包的时间，来确认我的邻居，我的对端，是否还存在，他们都有一个过期时间，如果对端超过了这个时间，还没发包给我，那么我将从我的数据库中，抹除他的存在，但是IPSEC，如果庞大，好用，安全的协议，却好像没有一个检测对端的机制？
+
+
+
+### DPD
+
+[![erLXDS.png](https://s2.ax1x.com/2019/08/03/erLXDS.png)](https://imgchr.com/i/erLXDS)
+
+#### 周期模式：
+
+
+
+1）测试已经部署好的VPN：
+
+R3#ping 1.1.1.1 sou l0
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:
+
+Packet sent with a source address of 3.3.3.3 
+
+!!!!!
+
+Success rate is 100 percent (5/5), round-trip min/avg/max = 6/6/7 ms
+
+
+
+2）查看加解密包
+
+R3#show crypto eng conn ac
+
+Crypto Engine Connections
+
+ 
+
+   ID  Type    Algorithm           Encrypt  Decrypt LastSeqN IP-Address
+
+​    3  IPsec   3DES+MD5                  0        9        9 23.1.1.3
+
+​    4  IPsec   3DES+MD5                  9        0        0 23.1.1.3
+
+ 1002  IKE     MD5+3DES                  0        0        0 23.1.1.3
+
+
+
+**注**：这个时候你可以关闭R2上面的某个接口，然后查看加解密包，你会发现 报文还存在，IPSECVPN无法检测问题对等体
+
+3）手动制造问题对等体
+
+R1去清除安全关联
+
+Clear crypto sa
+
+Clear crypto isa sa
+
+R3中然后打开DEBUG 命令
+
+Debug crypto isa 
+
+Debug crypto ipsec
+
+ 因为目前R1的对等体已经被我们清除了，我们在R3配置Debug就是为了查看，DPD能否清除我R3中还存在的安全管理
+
+两个站点，A和C同时开启周期性DPD，全局配置模式下：
+
+Router(config)# Crypto isakmp keepalive **10** periodic
+
+每发送一个数据包，等待回复的时间为10S
+
+4）以下为DPD_Debug信息摘选：
+
++ 开启DPD，在第一阶段第5-6个包交互后，出现一下信息提示
+
+*Aug  3 11:55:23.750: ISAKMP:(1002):IKE_DPD is enabled, initializing timers
+
++ 第二阶段快速模式协商完成，DPD即刻开始工作，出现以下信息提示
+
+*Aug  3 11:55:33.754: ISAKMP:(1002):Sending NOTIFY DPD/R_U_THERE protocol 1 
+
++ R_U-THERE = Are you There？
+
+*Aug  3 11:55:23.750: ISAKMP:(1002): sending packet to 12.1.1.1 my_port 500 peer_port 500 (I) QM_IDLE 
+
++ 发送DPD数据包
+
+*Aug  3 11:55:33.754: ISAKMP:(1002): sending packet to 12.1.1.1 my_port 500 peer_port 500 (I) QM_IDLE
+
+*Aug  3 11:55:33.756: ISAKMP:(1002): DPD/R_U_THERE_ACK received from peer 12.1.1.1, sequence 0x76001F2F 
+
+ 
+
+5）查看ISAKMP：带D为DPD技术已启用
+
+R3#show crypto isa sa detail 
+
+Codes: C - IKE configuration mode, D - Dead Peer Detection
+
+​       K - Keepalives, N - NAT-traversal
+
+​       T - cTCP encapsulation, X - IKE Extended Authentication
+
+​       psk - Preshared key, rsig - RSA signature
+
+​       renc - RSA encryption
+
+IPv4 Crypto ISAKMP SA
+
+C-id  Local           Remote          I-VRF  Status Encr Hash   Auth DH Lifetime Cap.
+
+1002  23.1.1.3        12.1.1.1               ACTIVE 3des md5    psk  2  23:34:41 **D  **
+
+​       Engine-id:Conn-id =  SW:2
+
+ 
+
+把R2公网接口再次关闭，可查看到R1连续发送5个DPD包，无回应，自动删除安全关联
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):DPD incrementing error counter (5/5)
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):peer 23.1.1.3 not responding!
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):peer does not do paranoid keepalives.
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):deleting SA reason "End of ipsec tunnel" state (I) QM_IDLE       (peer 23.1.1.3)
+
+R1#show crypto eng conn ac
+
+Crypto Engine Connections
+
+ 
+
+   ID  Type    Algorithm           Encrypt  Decrypt LastSeqN IP-Address
+
+ 
+
+周期性模式总结：时效性高，但比较占用资源与带宽
+
+
+
+
+
+***
+
+
+
+
+
+#### 按需模式
+
+1）清除周期性模式，并添加按需模式（默认模式按需模式）
+
+​	No crypto isakmp keepalive 10 per
+
+​	Crypto isakmp keepalive 10 on-demand
+
+2）恢复接口，清除安全关联
+
+3）再次测试通信点溜了，查看Debug信息，除了以下这条之外再无其他DPD信息输出
+
+​	*Aug  3 12:40:53.668: ISAKMP:(1009):IKE_DPD is enabled, initializing timers
+
+4）把R2接口关闭，再执行通信点流量测试
+
+R3#ping 1.1.1.1 sou l0
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:
+
+Packet sent with a source address of 3.3.3.3 
+
+.....
+
+Success rate is 0 percent (0/5)
+
+把R2接口再次关闭，可查看到R1连续发5个包，后删除安全关联
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):DPD incrementing error counter (5/5)
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):peer 23.1.1.3 not responding!
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):peer does not do paranoid keepalives.
+
+*Jul 29 16:35:39.542: ISAKMP:(1010):deleting SA reason "End of ipsec tunnel" state (I) QM_IDLE       (peer 23.1.1.3)
+
+
+
+R1#show crypto eng conn ac
+
+Crypto Engine Connections
+
+ 
+
+   ID  Type    Algorithm           Encrypt  Decrypt LastSeqN IP-Address
+
+查看R2的安全关联
+
+R3#show crypto eng conn ac
+
+Crypto Engine Connections
+
+ 
+
+   ID  Type    Algorithm           Encrypt  Decrypt LastSeqN IP-Address
+
+   19  IPsec   3DES+MD5                  0        9        9 23.1.1.3
+
+   20  IPsec   3DES+MD5                  9        0        0 23.1.1.3
+
+ 1010  IKE     MD5+3DES                  0        0        0 23.1.1.3
+
+ 
+
+总结：按需模式占用资源少，但时效性较差
+
++++
+
+> 随着信息技术的逐渐普遍化，人们越来越追求安全，可靠的技术，IPSEC亦是如此，但在追求多个方面的IPSEC冗余时，却貌似没有了对策，不像网关有VRRP冗余，链路有EC会聚，设备之间，可以堆叠。那么IPSEC的冗余，是怎么样的呢？
+
+### RRI
+
+
+
+
+
+![eDRbB6.png](https://s2.ax1x.com/2019/08/03/eDRbB6.png)
+
+如图，这是一个多站点的IPSEC拓扑，B和C互相冗余，让 **站点A **可以通信与 **站点D**
+
+如果，当设备B挂了，C切换为Active设备，站点A回包，必须要有一条路由，目的为对端站点D，下一跳为C设备的路由，这就需要一个机制，来让内网站点A的路由根据VPN的切换而切换，这个机制，就是**RRI**。
+那么，何为RRI？RRI（Reverse_Route_Injection，反向路由注入）
+
+- 1）RRI启用前提：
+
+  - 内网必须使用动态路由协议（因为RRI技术只能让你学习到一条静态，你需要将这条静态发布）
+  - 主/备设备上都启用RRI技术
+
+  2）RRI技术产生静态路由
+
+  - 若使用静态MAP，当启用反向路由注入时就会出现
+  - 若使用动态MAP，或远程拨号，随着IPSEC安全关联的出现而出现
+
+  3）需要执行重分布，将静态路由重分布到内网动态路由协议中，从而使内网其他主机获取到该静态信息。
+
+  4）版本区别：
+
+  - 12.3_IOS启用reverse-route，不管对应接口是否down，都有反向路由注入
+  - 12.4版IOS启用reverse-route，接口down，反向路由也失效
+
+
+RRI：
+
+通过反向路由技术自己产生来自对端通信点的静态路由
+
+依据感兴趣流的**对端地址**来产生静态路由
+
+ 配置：crypto MAP下配置 reverse-route st
+
+注：果然你的感兴趣流是ANY 那么经过本人测试，ANY在RRI技术中，不生效，不会产生一条ANY的路由
+
+总结：DPD建议采用按需模式，因为按需模式耗能少，节省开支。RRI就是根据你的感兴趣流从而产生一条静态路由，
