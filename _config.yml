@@ -5,7 +5,8 @@ header-img: img/home-bk.jpg      #主页的背景图
 email: sun2000e@163.com          #联系邮箱
 description: "网络与生活，还有爱。| 这里是 @Zhy张阳 的个人博客，与你一起发现更大的世界。"
 keyword: "张阳, Zhy张阳, Zhy, 网络 , 张阳的博客, Zhy Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计 ,网络 ,思科 ,DCN ,神州数码 ,Cisco , 华为 , H3C"
-url: "https://blog.dornick.top"              # your host, for absolute URL
+url: ""              # your host, for absolute URL
+# url: "https://blog.dornick.top"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # 是否发布带有日期的文章
@@ -79,7 +80,7 @@ ga_domain: auto
 # Sidebar settings
 sidebar: true                           # 是否开启右侧的个人栏
 sidebar-about-description: "I don't want we just friends.<br>一生温暖纯良，不舍爱与自由。"
-sidebar-avatar: /img/zhy.jpg      # 请使用绝对链接。
+sidebar-avatar: /img/Zhy.jpg      # 请使用绝对链接。
 
 
 
