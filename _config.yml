@@ -1,46 +1,44 @@
 # Site settings
-title: Zhy Blog
-SEOTitle:  Zhy的博客 | Zhy Blog
-header-img: img/post-bg-bizhi.jpg
-email: Sun2000E@163.com
-description: ""
-keyword: "奋斗 , 网络,奋斗Zhy,博客,个人博客"
-url: "https://blog.dornick.top"          # your host, for absolute URL
-baseurl: ""      # for example, '/blog' if your blog hosted ohn 'host/blog'
-github_repo: "https://github.com/SunZhangE/SunZhangE.github.io" # you code repository
+title: Zhy Blog   #你的博客标题
+SEOTitle: 张阳的博客 | Zhy Blog  #网页上面的标签名字
+header-img: img/home-bkk.jpg      #主页的背景图
+email: sun2000e@163.com          #联系邮箱
+description: "网络与生活，还有爱。| 这里是 @Zhy张阳 的个人博客，与你一起发现更大的世界。"
+keyword: "张阳, Zhy张阳, Zhy, 网络 , 张阳的博客, Zhy Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计 ,网络 ,思科 ,DCN ,神州数码 ,Cisco , 华为 , H3C"
+url: "https://blog.dornick.top"              # your host, for absolute URL
+baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
-# Sidebar settings
-sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "努力，努力，加油！"
-sidebar-avatar: /img/about-me.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
-
-
+# 是否发布带有日期的文章
+future: true
 
 # SNS settings
 RSS: false
-# weibo_username:     待填写
-# zhihu_username:     tong-le-66-17
-github_username:    SunZhangE
-#facebook_username:  待填写
-jianshu_username:   88faccdd5bf6
-#twitter_username:   待填写
-
-
+#weibo_username:     SunZhangE 
+#zhihu_username:     SunZhangE
+github_username:     SunZhangE
+#twitter_username:   SunZhangE
+#facebook_username:  SunZhangE
+#linkedin_username:  firstname-lastname-idxxxx
+jianshu_username:    88faccdd5bf6
 
 
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+highlighter: rouge
 permalink: pretty
-paginate: 9
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+# If you have timezone issue (e.g. #68) in China, uncomment to use this:
+#timezone: CN  
 
 
 
 # Gems
 # from PR#40, to support local preview for Jekyll 3.0
-gems: [jekyll-paginate]
-
+# make sure you have this gem installed
+# `$ gem install jekyll-paginate`
+plugins: [jekyll-paginate]
 
 
 
@@ -49,44 +47,45 @@ gems: [jekyll-paginate]
 # although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
 # document: http://jekyllrb.com/docs/configuration/#kramdown
 markdown: kramdown
-highlighter: rouge
 kramdown:
   input: GFM                            # use Github Flavored Markdown !important
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
 
 
 
-# 评论系统
- Disqus（https://disqus.com/）
- disqus_username: SunZhangE
+# Disqus settings 这里填写你的disuqus唯一标识符即可
+disqus_username: zhy-blog
 
- Gitalk
-gitalk:
-  enable: true    #是否开启Gitalk评论
-  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
-  repo: SunZhangE.github.io    #仓库名称
-  owner: SunZhangE    #github用户名
-  admin: SunZhangE
-  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+# Netease settings 
+netease_comment: true
 
 
-# 统计
 
 # Analytics settings
-# Baidu Analytics
-ba_track_id: 2f6d2bb5f7ad37561e1edb632d6d3a4c
+# Baidu Analytics 
+# ba_track_id: [your track id]
 
-# Google Analytics
+# Google Analytics 你的谷歌AnalyticasID
 ga_track_id: 'UA-126186513-1'            # Format: UA-xxxxxx-xx
-ga_domain: blog.dornick.top               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
+ga_domain: auto
 
 
+
+# Sidebar settings
+sidebar: true                           # 是否开启右侧的个人栏
+sidebar-about-description: "I don't want we just friends.<br>一生温暖纯良，不舍爱与自由。"
+sidebar-avatar: /img/zhy.jpg      # 请使用绝对链接。
 
 
 
 # Featured Tags
-featured-tags: true                     # 是否使用首页标签
-featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
 
 
 
@@ -96,7 +95,12 @@ service-worker: true
 
 
 
-# Friends
+# MathJax rendering for layout:page (e.g. post preview)
+page-mathjax: false
+
+
+
+# Friends 友链填写
 friends: [
     {
         title: "CSDN",
