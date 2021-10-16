@@ -1,10 +1,10 @@
 # Site settings
 title: Zhy Blog   #你的博客标题
-SEOTitle: 张阳的博客 | Zhy Blog  #网页上面的标签名字
+SEOTitle: Zhy的博客 | Zhy Blog  #网页上面的标签名字
 header-img: img/home-bk.jpg      #主页的背景图
 email: sun2000e@163.com          #联系邮箱
-description: "网络与生活，还有爱。| 这里是 @Zhy张阳 的个人博客，与你一起发现更大的世界。"
-keyword: "张阳, Zhy张阳, Zhy, 网络 , 张阳的博客, Zhy Blog, 博客, 个人网站,网络 ,思科 ,DCN ,神州数码 ,Cisco , 华为 , H3C"
+description: "网络与生活，还有爱。| 这里是 @Zhy 的个人博客，与你一起发现更大的世界。"
+keyword: ", Zhy, Zhy, 网络 , 的博客, Zhy Blog, 博客, 个人网站,网络 ,思科 ,DCN ,神州数码 ,Cisco , 华为 , H3C"
 url: ""              # your host, for absolute URL
 # url: "https://blog.dornick.top"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
@@ -20,7 +20,7 @@ github_username:     SunZhangE
 #twitter_username:   SunZhangE
 #facebook_username:  SunZhangE
 #linkedin_username:  firstname-lastname-idxxxx
-jianshu_username:    88faccdd5bf6
+#jianshu_username:    88faccdd5bf6
 
 
 # Build settings
