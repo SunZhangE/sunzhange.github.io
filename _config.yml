@@ -79,7 +79,7 @@ ga_domain: auto
 
 # Sidebar settings
 sidebar: true                           # 是否开启右侧的个人栏
-sidebar-about-description: "I don't want we just friends.<br>「一生温暖纯良，不舍爱与自由。」"
+sidebar-about-description: "I don't want we just friends.<br>一生温暖纯良，不舍爱与自由。"
 sidebar-avatar: /img/Zhy.jpg      # 请使用绝对链接。
 
 
