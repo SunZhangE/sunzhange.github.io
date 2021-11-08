@@ -7,6 +7,7 @@ description: "网络与生活，还有爱。| 这里是 @Zhy 的个人博客，�
 keyword: ", Zhy, Zhy, 网络 , 的博客, Zhy Blog, 博客, 个人网站,网络 ,思科 ,DCN ,神州数码 ,Cisco , 华为 , H3C"
 url: ""              # your host, for absolute URL
 # url: "https://blog.dornick.top"              # your host, for absolute URL
+url: "https://zhypro.top"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # 是否发布带有日期的文章
@@ -79,8 +80,8 @@ ga_domain: auto
 
 # Sidebar settings
 sidebar: true                           # 是否开启右侧的个人栏
-sidebar-about-description: "I don't want we just friends.<br>一生温暖纯良，不舍爱与自由。"
-sidebar-avatar: /img/Zhy.jpg      # 请使用绝对链接。
+sidebar-about-description: "张阳，运维领域 NPC，迟早进医院的脑科患者。<br>I don't want we just friends.<br>。"
+sidebar-avatar: /img/Zhy.jpg      # 头像
 
 
 
