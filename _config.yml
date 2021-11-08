@@ -1,6 +1,6 @@
 # Site settings
 title: Zhy Blog   #你的博客标题
-SEOTitle: Zhy的博客 | Zhy Blog  #网页上面的标签名字
+SEOTitle: 张阳的博客 | Zhy Blog  #网页上面的标签名字
 header-img: img/home-bk.jpg      #主页的背景图
 email: sun2000e@163.com          #联系邮箱
 description: "网络与生活，还有爱。| 这里是 @Zhy 的个人博客，与你一起发现更大的世界。"
@@ -80,7 +80,7 @@ ga_domain: auto
 
 # Sidebar settings
 sidebar: true                           # 是否开启右侧的个人栏
-sidebar-about-description: "张阳，运维领域 NPC，迟早进医院的脑科患者。<br>I don't want we just friends.<br>。"
+sidebar-about-description: "张阳，运维领域 NPC。<br>I don't want we just friends.<br>。"
 sidebar-avatar: /img/Zhy.jpg      # 头像
 
 
